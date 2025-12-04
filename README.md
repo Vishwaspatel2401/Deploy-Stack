@@ -182,44 +182,6 @@ The Upload Phase handles the initial submission of projects from users.
 <img width="1405" height="796" alt="image" src="https://github.com/user-attachments/assets/7f74e4ff-3962-4e3b-94f7-f066a8a0b098" />
 
 
-```
-┌─────────┐
-│  User   │
-└────┬────┘
-     │ github_url
-     │
-     ▼
-┌─────────────────┐
-│  Upload Service │
-└────┬────────────┘
-     │
-     ├──────────────┬──────────────┐
-     │              │              │
-     │ github_url   │              │
-     │              │              │
-     ▼              ▼              │
-┌─────────┐   ┌─────────┐          │
-│ GitHub  │   │   S3    │          │
-│         │   │         │          │
-│  ←──────┘   └──────→  │          │
-└─────────┘   └─────────┘          │
-     │              │              │
-     │              │              │
-     └──────────────┴──────────────┘
-                      │
-                      │ id
-                      ▼
-              ┌─────────────┐
-              │ SQS Queue   │
-              │  [id][id]   │
-              └─────────────┘
-     │
-     │ id
-     ▼
-┌─────────┐
-│  User   │
-└─────────┘
-```
 
 **Components:**
 - **User**: Initiates the upload by providing a GitHub project URL (`github_url`)
@@ -258,34 +220,10 @@ The Upload Phase handles the initial submission of projects from users.
 
 The Deployment Phase processes queued deployments and builds the projects.
 
-```
-┌─────────────────┐
-│   SNS Queue     │
-│  [1][2][3][4]   │
-└────────┬────────┘
-         │
-         ├──────────────┬──────────────┐
-         │              │              │
-         ▼              ▼              ▼
-    ┌─────────┐   ┌─────────┐   ┌─────────┐
-    │Worker 1 │   │Worker 2 │   │Worker 3 │
-    └────┬────┘   └────┬────┘   └────┬────┘
-         │            │              │
-         └────────────┴──────────────┘
-                      │
-                      ▼
-              ┌──────────────┐
-              │ Final Build  │
-              │              │
-              │ React        │
-              │ HTML/CSS/JS  │
-              └──────┬───────┘
-                     │
-                     ▼
-                ┌─────────┐
-                │   S3    │
-                └─────────┘
-```
+
+<img width="1227" height="455" alt="image" src="https://github.com/user-attachments/assets/0f334260-0245-411a-9ffa-bf2a7c0d6735" />
+
+
 
 **Components:**
 - **SNS Queue**: Contains deployment jobs
@@ -324,32 +262,8 @@ The Deployment Phase processes queued deployments and builds the projects.
 
 The Request Phase handles user requests to access deployed applications.
 
-```
-┌─────────┐
-│  User   │
-└────┬────┘
-     │
-     ▼
-┌─────────────────┐
-│ id.vercel.com   │
-└────┬────────────┘
-     │
-     ▼
-┌─────────────────┐
-│  Global Network │
-│   (CDN/Edge)    │
-└────┬────────────┘
-     │
-     ├──────────────────┐
-     │                  │
-     ▼                  ▼
-┌─────────┐      ┌─────────┐
-│   S3    │      │   S3    │
-│         │      │         │
-│ React   │      │HTML/CSS │
-│ (+110)  │      │  /JS    │
-└─────────┘      └─────────┘
-```
+<img width="1415" height="491" alt="image" src="https://github.com/user-attachments/assets/c4973038-3342-4940-baad-99039772636a" />
+
 
 **Components:**
 - **Users**: Multiple users accessing deployed applications
