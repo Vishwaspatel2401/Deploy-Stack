@@ -178,6 +178,10 @@ This platform follows a three-phase architecture:
 
 The Upload Phase handles the initial submission of projects from users.
 
+
+<img width="1405" height="796" alt="image" src="https://github.com/user-attachments/assets/7f74e4ff-3962-4e3b-94f7-f066a8a0b098" />
+
+
 ```
 ┌─────────┐
 │  User   │
